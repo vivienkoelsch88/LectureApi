@@ -11,39 +11,25 @@ import java.util.List;
 
 public class RequestApi {
 
-    @Autowired
     private RestTemplate restTemplate = new RestTemplate();
 
     private final String APIURL =  "http://localhost:8081";
 
-    public List<Product> getProducts(){
-        // HttpHeaders
-//        HttpHeaders headers = new HttpHeaders();
-//        headers.setAccept(Arrays.asList(new MediaType[] { MediaType.APPLICATION_JSON }));
-//        // Request to return JSON format
-//        headers.setContentType(MediaType.APPLICATION_JSON);
-//        headers.set("my_other_key", "my_other_value");
-//
-//        // HttpEntity<String>: To get result as String.
-//        HttpEntity<String> entity = new HttpEntity<String>(headers);
+    public Product[] getProducts(){
 
-        List response = restTemplate.getForObject(APIURL + "/Produits", //
-                List.class);
-        System.out.println(response);
-//        HttpStatus statusCode = response.getStatusCode();
-//
-//        if (statusCode == HttpStatus.OK) {
-            // Response Body Data
-            List<Product> list = response;
+        return restTemplate.getForObject(APIURL + "/Produits", //
+                Product[].class);
 
-//            if (list != null) {
-//                for (Product e : list) {
-//                    System.out.println("Produits: " + e.getNom() + " - " + e.getPrix());
-//                }
-                return list;
-//            }
-//        }
-//        return null;
+    }
+
+    public Product getProduct(int id){
+
+
+        Product produit = restTemplate.getForObject(APIURL + "/Produits/" + id, //
+                Product.class);
+        System.out.println(produit);
+
+        return produit;
     }
 
 

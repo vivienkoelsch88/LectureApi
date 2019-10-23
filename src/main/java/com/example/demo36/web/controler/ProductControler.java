@@ -17,8 +17,8 @@ public class ProductControler {
     public String listeProduits(Model model) {
 
         RequestApi requestApi = new RequestApi();
-        List<Product> produits = requestApi.getProducts();
-//        System.out.println(produits);
+        Product[] produits = requestApi.getProducts();
+
         model.addAttribute("products", produits);
 
         //return productDao.findAll();
@@ -27,8 +27,12 @@ public class ProductControler {
 
 
     @GetMapping(value="/Produits/{id}")
-    public Product afficherUnProduit(@PathVariable int id) {
-        return null;
+    public String afficherUnProduit(@PathVariable int id, Model model) {
+        RequestApi requestApi = new RequestApi();
+
+        model.addAttribute("products", requestApi.getProduct(id));
+
+        return "Produit";
     }
 
     @DeleteMapping(value="/RemoveProduits/{id}")
