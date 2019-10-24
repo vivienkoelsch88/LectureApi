@@ -32,6 +32,18 @@ public class RequestApi {
         return produit;
     }
 
+    public Product addProduct(Product product){
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("Accept", MediaType.APPLICATION_JSON_VALUE);
+        headers.setContentType(MediaType.APPLICATION_JSON);
+
+// Data attached to the request.
+        HttpEntity<Product> requestBody = new HttpEntity<>(product, headers);
+
+        return restTemplate.postForObject(APIURL + "/AddProduits", requestBody,//
+                Product.class);
+
+    }
 
 
 }

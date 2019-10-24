@@ -1,6 +1,7 @@
 package com.example.demo36.web.controler;
 
 import com.example.demo36.model.Product;
+import com.example.demo36.web.form.FormProduct;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -40,23 +41,28 @@ public class ProductControler {
         return null;
     }
 
-    @RequestMapping(value="/AddProduits", method=RequestMethod.POST)
-    public ResponseEntity<Void> ajouterProduit(@RequestBody Product product) {
+    @RequestMapping(value="/addProductYolo", method=RequestMethod.POST)
+    public String ajouterProduit(Model model, //
+                               @ModelAttribute("FormProduct") FormProduct form) {
+        RequestApi requestApi = new RequestApi();
+        Product product = new Product(form.getId(), form.getNom(), form.getPrix());
+        Product produit = requestApi.addProduct(product);
 
-//        Product productAdded =  productDao.save(product);
-//
-//        if (productAdded == null)
-//            return ResponseEntity.noContent().build();
-//
-//        URI location = ServletUriComponentsBuilder
-//                .fromCurrentRequest()
-//                .path("/{id}")
-//                .buildAndExpand(productAdded.getId())
-//                .toUri();
+        Product[] produits = requestApi.getProducts();
 
-        return null;
+        model.addAttribute("products", produits);
+
+        return "Produits";
     }
 
+    @RequestMapping(value="/AddProduct", method= RequestMethod.GET)
+    public String formProduit(Model model) {
+
+        FormProduct formProduct = new FormProduct();
+        model.addAttribute("FormProduct", formProduct);
+
+        return "CreateProduit";
+    }
     //----------------------------------------------------------------------------------------------------
 
 }
